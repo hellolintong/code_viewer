@@ -57,6 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="iterator.html" />
+    
     
     <link rel="prev" href="function.html" />
     
@@ -153,6 +155,45 @@
             
         </li>
     
+        <li class="chapter " data-level="1.2.4" data-path="iterator.html">
+            
+                <a href="iterator.html">
+            
+                    
+                    iterator
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="encoding.html">
+            
+                <a href="encoding.html">
+            
+                    
+                    encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="shard.html">
+            
+                <a href="shard.html">
+            
+                    
+                    shard
+            
+                </a>
+            
+
+            
+        </li>
+    
 
             </ul>
             
@@ -204,12 +245,12 @@
                                 <section class="normal markdown-section">
                                 
                                 <p>BytesQueue&#x662F;&#x4E00;&#x4E2A;&#x7EBF;&#x7A0B;&#x4E0D;&#x5B89;&#x5168;&#x7684;fifo&#x961F;&#x5217;&#xFF0C;&#x5E95;&#x5C42;&#x57FA;&#x4E8E;bytes&#x6570;&#x7EC4;</p>
-<h4 id="&#x6574;&#x4F53;&#x8BBE;&#x8BA1;">&#x6574;&#x4F53;&#x8BBE;&#x8BA1;</h4>
+<h4 id="1-&#x6574;&#x4F53;&#x8BBE;&#x8BA1;">1. &#x6574;&#x4F53;&#x8BBE;&#x8BA1;</h4>
 <p><img src="bytes_queue1.jpg" alt="&#x56FE;1"></p>
 <p><img src="bytes_queue2.jpg" alt="&#x56FE;2"></p>
 <p>&#x4ECE;&#x4E0A;&#x8FF0;&#x4E24;&#x5F20;&#x56FE;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#x4F5C;&#x8005;&#x5BF9;&#x6574;&#x4E2A;bytes_queue&#x7684;&#x8BBE;&#x8BA1;&#x3002;&#x5176;&#x5B9E;&#x7406;&#x8BBA;&#x4E0A;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x8003;&#x8651;tail&#x5230;head&#x4E4B;&#x524D;&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x5C31;&#x662F;tail&#x5F80;&#x540E;&#x79FB;&#x52A8;&#xFF0C;head&#x4E5F;&#x5F80;&#x540E;&#x79FB;&#x52A8;&#xFF0C;&#x7136;&#x540E;rightMargin&#x662F;&#x548C;tail&#x4FDD;&#x6301;&#x4E00;&#x81F4;&#x7684;&#x3002;&#x4E00;&#x65E6;head&#x5230;&#x8FBE;rightMargin&#xFF0C;&#x8BF4;&#x660E;&#x961F;&#x5217;&#x51FA;&#x53BB;&#x5B8C;&#x6BD5;&#xFF0C;&#x7136;&#x540E;head&#x548C;tail&#x79FB;&#x52A8;&#x5230;&#x961F;&#x5217;&#x9996;&#x90E8;&#xFF0C;&#x5F00;&#x59CB;&#x65B0;&#x7684;&#x64CD;&#x4F5C;&#x3002;</p>
 <p>&#x4F46;&#x662F;&#x56E0;&#x4E3A;&#x5B58;&#x5728;&#x4E00;&#x79CD;case&#x5C31;&#x662F;&#x53EF;&#x80FD;head&#x8FD8;&#x6CA1;&#x5230;&#x8FBE;rightMargin&#xFF0C;&#x4F46;&#x662F;&#x7528;&#x6237;&#x60F3;&#x63D2;&#x5165;&#x6570;&#x636E;&#xFF0C;tail&#x4E4B;&#x540E;&#x7684;&#x6570;&#x636E;&#x4E0D;&#x591F;&#x7528;&#x4E86;&#xFF0C;&#x90A3;&#x5C31;&#x8981;&#x8003;&#x8651;&#x8FD9;&#x4E2A;head&#x4E4B;&#x524D;&#x7684;&#x7A7A;&#x95F4;&#x591F;&#x4E0D;&#x591F;&#x7528;&#xFF0C;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;tail&#x548C;head&#x7684;&#x5173;&#x7CFB;&#x4F1A;&#x53D8;&#x6210;&#x56FE;2&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
-<h4 id="push">Push</h4>
+<h4 id="2-push">2. Push</h4>
 <p>&#x5148;&#x770B;&#x770B;Push&#x8FD9;&#x4E2A;&#x64CD;&#x4F5C;&#x7684;&#x903B;&#x8F91;&#xFF1A;</p>
 <pre><code class="lang-go"><span class="hljs-keyword">func</span> (q *BytesQueue) Push(data []<span class="hljs-keyword">byte</span>) (<span class="hljs-keyword">int</span>, error) {
     dataLen := <span class="hljs-built_in">len</span>(data)
@@ -263,7 +304,7 @@
     q.tail += <span class="hljs-built_in">copy</span>(q.array[q.tail:], data[:<span class="hljs-built_in">len</span>])
 }
 </code></pre>
-<h4 id="pop">Pop</h4>
+<h4 id="3-pop">3. Pop</h4>
 <pre><code class="lang-go"><span class="hljs-keyword">func</span> (q *BytesQueue) Pop() ([]<span class="hljs-keyword">byte</span>, error) {
     data, headerEntrySize, err := q.peek(q.head)
     <span class="hljs-keyword">if</span> err != <span class="hljs-literal">nil</span> {
@@ -300,7 +341,7 @@
 </code></pre>
 <p>&#x7136;&#x540E;head&#x8DF3;&#x8FC7;&#x5DF2;&#x7ECF;Pop&#x51FA;&#x6765;&#x7684;&#x6570;&#x636E;&#xFF0C;&#x5982;&#x679C;head&#x5230;&#x8FBE;&#x5E95;&#x90E8;&#xFF0C;head&#x5C31;&#x8DF3;&#x56DE;&#x5230;leftMarginIndex&#xFF0C;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x5982;&#x679C;&#x662F;&#x6B63;&#x5E38;&#x573A;&#x666F;&#xFF1A;&#x5C31;&#x662F;head ... tail&#xFF0C;&#x90A3;&#x4E48;head&#x8DF3;&#x4E86;&#xFF0C;tail&#x4E5F;&#x8981;&#x8DF3;&#x3002;&#x5426;&#x5219;&#x5C31;&#x662F;tail&#x5728;head&#x4E4B;&#x524D;&#x7684;&#x573A;&#x666F;&#xFF0C;&#x5C31;&#x4E0D;&#x9700;&#x8981;&#x52A8;&#xFF0C;&#x6548;&#x679C;&#x5982;&#x4E0B;&#x56FE;&#xFF1A;</p>
 <p><img src="bytes_queue3.jpg" alt="image-20200818174132498"></p>
-<h4 id="&#x6269;&#x5BB9;">&#x6269;&#x5BB9;</h4>
+<h4 id="4-&#x6269;&#x5BB9;">4. &#x6269;&#x5BB9;</h4>
 <pre><code class="lang-go"><span class="hljs-keyword">func</span> (q *BytesQueue) allocateAdditionalMemory(minimum <span class="hljs-keyword">int</span>) {
     start := time.Now()
     <span class="hljs-keyword">if</span> q.capacity &lt; minimum {
@@ -362,10 +403,14 @@
 
             
                 
-                <a href="function.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: 函数引用模块关系">
+                <a href="function.html" class="navigation navigation-prev " aria-label="Previous page: 函数引用模块关系">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
+                
+                <a href="iterator.html" class="navigation navigation-next " aria-label="Next page: iterator">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -374,7 +419,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"bytes_queue","level":"1.2.3","depth":2,"previous":{"title":"函数引用模块关系","level":"1.2.2","depth":2,"path":"bigcache/function.md","ref":"bigcache/function.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"bigcache/bytes_queue.md","mtime":"2020-08-18T11:24:46.561Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-18T11:23:46.415Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"bytes_queue","level":"1.2.3","depth":2,"next":{"title":"iterator","level":"1.2.4","depth":2,"path":"bigcache/iterator.md","ref":"bigcache/iterator.md","articles":[]},"previous":{"title":"函数引用模块关系","level":"1.2.2","depth":2,"path":"bigcache/function.md","ref":"bigcache/function.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"bigcache/bytes_queue.md","mtime":"2020-08-20T05:12:54.835Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-20T05:13:21.469Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
