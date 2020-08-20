@@ -2,7 +2,7 @@ BytesQueue是一个线程不安全的fifo队列，底层基于bytes数组
 
 
 
-#### 整体设计
+#### 1. 整体设计
 
 
 
@@ -16,7 +16,7 @@ BytesQueue是一个线程不安全的fifo队列，底层基于bytes数组
 
 
 
-#### Push
+#### 2. Push
 
 先看看Push这个操作的逻辑：
 
@@ -84,7 +84,7 @@ func (q *BytesQueue) copy(data []byte, len int) {
 
 
 
-#### Pop
+#### 3. Pop
 
 ```go
 func (q *BytesQueue) Pop() ([]byte, error) {
@@ -135,7 +135,7 @@ func (q *BytesQueue) peek(index int) ([]byte, int, error) {
 
 
 
-#### 扩容
+#### 4. 扩容
 
 ```go
 func (q *BytesQueue) allocateAdditionalMemory(minimum int) {
