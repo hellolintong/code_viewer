@@ -301,9 +301,9 @@
                                 <section class="normal markdown-section">
                                 
                                 <p>reflectx&#x662F;&#x5BF9;reflect&#x7684;&#x4E00;&#x4E2A;&#x5C01;&#x88C5;&#xFF0C;&#x4ED6;&#x5305;&#x542B;&#x5982;&#x4E0B;&#x51E0;&#x4E2A;&#x7ED3;&#x6784;&#x4F53;&#xFF1A;</p>
-<pre><code class="lang-c++">// A FieldInfo is metadata for a struct field.
+<pre><code class="lang-java"><span class="hljs-comment">// A FieldInfo is metadata for a struct field.</span>
 type FieldInfo struct {
-    Index    []int
+    Index    []<span class="hljs-keyword">int</span>
     Path     string
     Field    reflect.StructField
     Zero     reflect.Value
@@ -314,7 +314,7 @@ type FieldInfo struct {
     Parent   *FieldInfo
 }
 
-// A StructMap is an index of field metadata for a struct.
+<span class="hljs-comment">// A StructMap is an index of field metadata for a struct.</span>
 type StructMap struct {
     Tree  *FieldInfo
     Index []*FieldInfo
@@ -322,22 +322,22 @@ type StructMap struct {
     Names map[string]*FieldInfo
 }
 
-// Mapper is a general purpose mapper of names to struct fields.  A Mapper
-// behaves like most marshallers in the standard library, obeying a field tag
-// for name mapping but also providing a basic transform function.
+<span class="hljs-comment">// Mapper is a general purpose mapper of names to struct fields.  A Mapper</span>
+<span class="hljs-comment">// behaves like most marshallers in the standard library, obeying a field tag</span>
+<span class="hljs-comment">// for name mapping but also providing a basic transform function.</span>
 type Mapper struct {
-    cache      map[reflect.Type]*StructMap
+    cache      map[reflect.Type]*<span class="hljs-function">StructMap
     tagName    string
-    tagMapFunc func(string) string
-    mapFunc    func(string) string
+    tagMapFunc <span class="hljs-title">func</span><span class="hljs-params">(string)</span> string
+    mapFunc    <span class="hljs-title">func</span><span class="hljs-params">(string)</span> string
     mutex      sync.Mutex
 }
-</code></pre>
+</span></code></pre>
 <p>Mapper&#x5305;&#x62EC;StructMap, StructMap&#x5305;&#x62EC;FieldInfo&#x3002;</p>
 <h4 id="structmap">StructMap</h4>
 <p>&#x5BF9;&#x4E8E;StructMap&#xFF0C;&#x5982;&#x4E0B;&#x51E0;&#x4E2A;&#x51FD;&#x6570;&#x90FD;&#x662F;&#x8FD4;&#x56DE;FileInfo&#x7684;&#x4FE1;&#x606F;&#xFF0C;StructMap&#x7EF4;&#x62A4;&#x4E86;&#x4E00;&#x4E2A;Tree&#x7ED3;&#x6784;&#xFF0C;&#x8FD9;&#x4E2A;index&#x5E94;&#x8BE5;&#x662F;&#x4E00;&#x4E2A;tree path&#xFF0C;&#x6839;&#x636E;&#x8FD9;&#x4E2A;tree path&#x8FD4;&#x56DE;&#x5BF9;&#x5E94;&#x7684;FieldInfo</p>
-<pre><code class="lang-c++"><span class="hljs-comment">// GetByPath returns a *FieldInfo for a given string path.</span>
-func (f StructMap) GetByPath(path <span class="hljs-built_in">string</span>) *FieldInfo {
+<pre><code class="lang-java"><span class="hljs-comment">// GetByPath returns a *FieldInfo for a given string path.</span>
+func (f StructMap) GetByPath(path string) *FieldInfo {
     <span class="hljs-keyword">return</span> f.Paths[path]
 }
 
@@ -361,7 +361,7 @@ func (f StructMap) GetByTraversal(index []<span class="hljs-keyword">int</span>)
 </code></pre>
 <h4 id="mapper">Mapper</h4>
 <p>&#x8FD9;&#x91CC;&#x91CD;&#x70B9;&#x770B;<strong>TypeMap</strong>&#xFF0C;&#x4ED6;&#x662F;&#x6839;&#x636E;&#x4E00;&#x4E2A;Type&#x8FD4;&#x56DE;&#x5BF9;&#x5E94;&#x7684;StructMap&#xFF0C;&#x6D41;&#x7A0B;&#x5C31;&#x662F;&#x770B;&#x7F13;&#x5B58;&#xFF0C;&#x5982;&#x679C;&#x7F13;&#x5B58;&#x4E0D;&#x547D;&#x4E2D;&#x518D;&#x770B;&#x770B;<strong>getMapping</strong>&#x51FD;&#x6570;&#x3002;</p>
-<pre><code class="lang-c++"><span class="hljs-comment">// TypeMap returns a mapping of field strings to int slices representing</span>
+<pre><code class="lang-java"><span class="hljs-comment">// TypeMap returns a mapping of field strings to int slices representing</span>
 <span class="hljs-comment">// the traversal down the struct to reach the field.</span>
 func (m *Mapper) TypeMap(t reflect.Type) *StructMap {
     m.mutex.Lock()
@@ -377,124 +377,124 @@ func (m *Mapper) TypeMap(t reflect.Type) *StructMap {
 <p>&#x56E0;&#x6B64;&#x8FD9;&#x91CC;&#x6700;&#x91CD;&#x8981;&#x7684;&#x51FD;&#x6570;&#x5C31;&#x662F;getMapping&#x51FD;&#x6570;&#xFF0C;&#x6211;&#x4EEC;&#x91CD;&#x70B9;&#x770B;&#x770B;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;</p>
 <h5 id="getmapping">getMapping</h5>
 <p>&#x8BE5;&#x51FD;&#x6570;&#x7528;&#x5230;&#x7684;&#x5176;&#x4ED6;&#x5173;&#x8054;&#x7684;&#x4FE1;&#x606F;&#x5982;&#x4E0B;&#xFF1A;</p>
-<pre><code class="lang-c++">type typeQueue struct {
+<pre><code class="lang-java">type typeQueue struct {
     t  reflect.Type
     fi *FieldInfo
-    pp string // Parent path
+    pp string <span class="hljs-comment">// Parent path</span>
 }
 
-type mapf func(string) string
+<span class="hljs-function">type mapf <span class="hljs-title">func</span><span class="hljs-params">(string)</span> string
 
-// Deref is Indirect for reflect.Types
-func Deref(t reflect.Type) reflect.Type {
-    if t.Kind() == reflect.Ptr {
+<span class="hljs-comment">// Deref is Indirect for reflect.Types</span>
+func <span class="hljs-title">Deref</span><span class="hljs-params">(t reflect.Type)</span> reflect.Type </span>{
+    <span class="hljs-keyword">if</span> t.Kind() == reflect.Ptr {
         t = t.Elem()
     }
-    return t
+    <span class="hljs-keyword">return</span> t
 }
 
-// parseName parses the tag and the target name for the given field using
-// the tagName (eg &apos;json&apos; for `json:&quot;foo&quot;` tags), mapFunc for mapping the
-// field&apos;s name to a target name, and tagMapFunc for mapping the tag to
-// a target name.
-func parseName(field reflect.StructField, tagName string, mapFunc, tagMapFunc mapf) (tag, fieldName string) {
-    // first, set the fieldName to the field&apos;s name
+<span class="hljs-comment">// parseName parses the tag and the target name for the given field using</span>
+<span class="hljs-comment">// the tagName (eg &apos;json&apos; for `json:&quot;foo&quot;` tags), mapFunc for mapping the</span>
+<span class="hljs-comment">// field&apos;s name to a target name, and tagMapFunc for mapping the tag to</span>
+<span class="hljs-comment">// a target name.</span>
+<span class="hljs-function">func <span class="hljs-title">parseName</span><span class="hljs-params">(field reflect.StructField, tagName string, mapFunc, tagMapFunc mapf)</span> <span class="hljs-params">(tag, fieldName string)</span> </span>{
+    <span class="hljs-comment">// first, set the fieldName to the field&apos;s name</span>
     fieldName = field.Name
-    // if a mapFunc is set, use that to override the fieldName
-    if mapFunc != nil {
+    <span class="hljs-comment">// if a mapFunc is set, use that to override the fieldName</span>
+    <span class="hljs-keyword">if</span> mapFunc != nil {
         fieldName = mapFunc(fieldName)
     }
 
-    // if there&apos;s no tag to look for, return the field name
-    if tagName == &quot;&quot; {
-        return &quot;&quot;, fieldName
+    <span class="hljs-comment">// if there&apos;s no tag to look for, return the field name</span>
+    <span class="hljs-keyword">if</span> tagName == <span class="hljs-string">&quot;&quot;</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>, fieldName
     }
 
-    // if this tag is not set using the normal convention in the tag,
-    // then return the fieldname..  this check is done because according
-    // to the reflect documentation:
-    //    If the tag does not have the conventional format,
-    //    the value returned by Get is unspecified.
-    // which doesn&apos;t sound great.
-    if !strings.Contains(string(field.Tag), tagName+&quot;:&quot;) {
-        return &quot;&quot;, fieldName
+    <span class="hljs-comment">// if this tag is not set using the normal convention in the tag,</span>
+    <span class="hljs-comment">// then return the fieldname..  this check is done because according</span>
+    <span class="hljs-comment">// to the reflect documentation:</span>
+    <span class="hljs-comment">//    If the tag does not have the conventional format,</span>
+    <span class="hljs-comment">//    the value returned by Get is unspecified.</span>
+    <span class="hljs-comment">// which doesn&apos;t sound great.</span>
+    <span class="hljs-keyword">if</span> !strings.Contains(string(field.Tag), tagName+<span class="hljs-string">&quot;:&quot;</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;&quot;</span>, fieldName
     }
 
-    // at this point we&apos;re fairly sure that we have a tag, so lets pull it out
+    <span class="hljs-comment">// at this point we&apos;re fairly sure that we have a tag, so lets pull it out</span>
     tag = field.Tag.Get(tagName)
 
-    // if we have a mapper function, call it on the whole tag
-    // XXX: this is a change from the old version, which pulled out the name
-    // before the tagMapFunc could be run, but I think this is the right way
-    if tagMapFunc != nil {
+    <span class="hljs-comment">// if we have a mapper function, call it on the whole tag</span>
+    <span class="hljs-comment">// <span class="hljs-doctag">XXX:</span> this is a change from the old version, which pulled out the name</span>
+    <span class="hljs-comment">// before the tagMapFunc could be run, but I think this is the right way</span>
+    <span class="hljs-keyword">if</span> tagMapFunc != nil {
         tag = tagMapFunc(tag)
     }
 
-    // finally, split the options from the name
-    parts := strings.Split(tag, &quot;,&quot;)
-    fieldName = parts[0]
+    <span class="hljs-comment">// finally, split the options from the name</span>
+    parts := strings.Split(tag, <span class="hljs-string">&quot;,&quot;</span>)
+    fieldName = parts[<span class="hljs-number">0</span>]
 
-    return tag, fieldName
+    <span class="hljs-keyword">return</span> tag, fieldName
 }
 
-// parseOptions parses options out of a tag string, skipping the name
-func parseOptions(tag string) map[string]string {
-    parts := strings.Split(tag, &quot;,&quot;)
+<span class="hljs-comment">// parseOptions parses options out of a tag string, skipping the name</span>
+<span class="hljs-function">func <span class="hljs-title">parseOptions</span><span class="hljs-params">(tag string)</span> map[string]string </span>{
+    parts := strings.Split(tag, <span class="hljs-string">&quot;,&quot;</span>)
     options := make(map[string]string, len(parts))
-    if len(parts) &gt; 1 {
-        for _, opt := range parts[1:] {
-            // short circuit potentially expensive split op
-            if strings.Contains(opt, &quot;=&quot;) {
-                kv := strings.Split(opt, &quot;=&quot;)
-                options[kv[0]] = kv[1]
-                continue
+    <span class="hljs-function"><span class="hljs-keyword">if</span> <span class="hljs-title">len</span><span class="hljs-params">(parts)</span> &gt; 1 </span>{
+        <span class="hljs-keyword">for</span> _, opt := range parts[<span class="hljs-number">1</span>:] {
+            <span class="hljs-comment">// short circuit potentially expensive split op</span>
+            <span class="hljs-keyword">if</span> strings.Contains(opt, <span class="hljs-string">&quot;=&quot;</span>) {
+                kv := strings.Split(opt, <span class="hljs-string">&quot;=&quot;</span>)
+                options[kv[<span class="hljs-number">0</span>]] = kv[<span class="hljs-number">1</span>]
+                <span class="hljs-keyword">continue</span>
             }
-            options[opt] = &quot;&quot;
+            options[opt] = <span class="hljs-string">&quot;&quot;</span>
         }
     }
-    return options
+    <span class="hljs-keyword">return</span> options
 }
 </code></pre>
 <p>getMapping&#x51FD;&#x6570;&#x662F;&#x5229;&#x7528;&#x4E00;&#x4E2A;&#x961F;&#x5217;&#x904D;&#x5386;&#xFF0C;&#x5BF9;&#x4ECE;&#x961F;&#x5217;&#x4E2D;&#x53D6;&#x51FA;&#x6765;&#x7684;&#x6BCF;&#x4E2A;FieldInfo&#xFF0C;&#x5148;&#x5224;&#x65AD;&#x4E0B;&#x4ED6;&#x662F;&#x4E0D;&#x662F;recursive field&#xFF0C;&#x7136;&#x540E;&#x518D;&#x53D6;&#x51FA;&#x8BE5;FieldInfo&#x6240;&#x6709;&#x7684;field, &#x5BF9;&#x6BCF;&#x4E2A;Field&#xFF0C;&#x8C03;&#x7528;parseName &#x5BF9;&#x8BE5;Field&#x7684;&#x540D;&#x5B57;&#x8FDB;&#x884C;&#x5904;&#x7406;&#xFF08;&#x4F7F;&#x7528;MapFunc&#xFF09;&#x7136;&#x540E;&#x751F;&#x6210;&#x65B0;&#x7684;FieldInfo&#xFF0C;
 &#x8FD9;&#x91CC;&#x8C03;&#x7528;parseOption&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x4F1A;&#x89E3;&#x6790;tag&#x7684;&#x503C;&#x3002;
 &#x5982;&#x679C;&#x8FD9;&#x4E2A;Field&#x662F;&#x4E00;&#x4E2A;&#x5185;&#x5D4C;&#x7ED3;&#x6784;&#x4F53;&#xFF0C;&#x6216;&#x8005;&#x4ED6;&#x81EA;&#x8EAB;&#x662F;&#x4E00;&#x4E2A;Struct&#xFF0C;&#x90A3;&#x4E48;&#x4F1A;&#x9012;&#x5F52;&#x7684;&#x8C03;&#x7528;&#xFF08;&#x8FDB;&#x5165;&#x961F;&#x5217;&#xFF09;&#xFF0C;&#x7B49;&#x904D;&#x5386;&#x5B8C;&#x5168;&#x90E8;&#x7684;Field&#x540E;&#xFF0C;&#x4F1A;&#x751F;&#x6210;&#x4E00;&#x4E2A;StructMap&#xFF0C;&#x5B8C;&#x6210;FieldInfo&#x5230;StructMap&#x7684;&#x5173;&#x8054;&#x3002;</p>
-<pre><code class="lang-c++">func getMapping(t reflect.Type, tagName string, mapFunc, tagMapFunc mapf) *StructMap {
+<pre><code class="lang-java"><span class="hljs-function">func <span class="hljs-title">getMapping</span><span class="hljs-params">(t reflect.Type, tagName string, mapFunc, tagMapFunc mapf)</span> *StructMap </span>{
     m := []*FieldInfo{}
 
     root := &amp;FieldInfo{}
     queue := []typeQueue{}
-    queue = append(queue, typeQueue{Deref(t), root, &quot;&quot;})
+    queue = append(queue, typeQueue{Deref(t), root, <span class="hljs-string">&quot;&quot;</span>})
 
 QueueLoop:
-    for len(queue) != 0 {
-        // pop the first item off of the queue
-        tq := queue[0]
-        queue = queue[1:]
+    <span class="hljs-function"><span class="hljs-keyword">for</span> <span class="hljs-title">len</span><span class="hljs-params">(queue)</span> !</span>= <span class="hljs-number">0</span> {
+        <span class="hljs-comment">// pop the first item off of the queue</span>
+        tq := queue[<span class="hljs-number">0</span>]
+        queue = queue[<span class="hljs-number">1</span>:]
 
-        // ignore recursive field
-        for p := tq.fi.Parent; p != nil; p = p.Parent {
-            if tq.fi.Field.Type == p.Field.Type {
-                continue QueueLoop
+        <span class="hljs-comment">// ignore recursive field</span>
+        <span class="hljs-keyword">for</span> p := tq.fi.Parent; p != nil; p = p.Parent {
+            <span class="hljs-keyword">if</span> tq.fi.Field.Type == p.Field.Type {
+                <span class="hljs-keyword">continue</span> QueueLoop
             }
         }
 
-        nChildren := 0
-        if tq.t.Kind() == reflect.Struct {
+        nChildren := <span class="hljs-number">0</span>
+        <span class="hljs-keyword">if</span> tq.t.Kind() == reflect.Struct {
             nChildren = tq.t.NumField()
         }
         tq.fi.Children = make([]*FieldInfo, nChildren)
 
-        // iterate through all of its fields
-        for fieldPos := 0; fieldPos &lt; nChildren; fieldPos++ {
+        <span class="hljs-comment">// iterate through all of its fields</span>
+        <span class="hljs-keyword">for</span> fieldPos := <span class="hljs-number">0</span>; fieldPos &lt; nChildren; fieldPos++ {
 
             f := tq.t.Field(fieldPos)
 
-            // parse the tag and the target name using the mapping options for this field
+            <span class="hljs-comment">// parse the tag and the target name using the mapping options for this field</span>
             tag, name := parseName(f, tagName, mapFunc, tagMapFunc)
 
-            // if the name is &quot;-&quot;, disabled via a tag, skip it
-            if name == &quot;-&quot; {
-                continue
+            <span class="hljs-comment">// if the name is &quot;-&quot;, disabled via a tag, skip it</span>
+            <span class="hljs-keyword">if</span> name == <span class="hljs-string">&quot;-&quot;</span> {
+                <span class="hljs-keyword">continue</span>
             }
 
             fi := FieldInfo{
@@ -504,35 +504,35 @@ QueueLoop:
                 Options: parseOptions(tag),
             }
 
-            // if the path is empty this path is just the name
-            if tq.pp == &quot;&quot; {
+            <span class="hljs-comment">// if the path is empty this path is just the name</span>
+            <span class="hljs-keyword">if</span> tq.pp == <span class="hljs-string">&quot;&quot;</span> {
                 fi.Path = fi.Name
-            } else {
-                fi.Path = tq.pp + &quot;.&quot; + fi.Name
+            } <span class="hljs-keyword">else</span> {
+                fi.Path = tq.pp + <span class="hljs-string">&quot;.&quot;</span> + fi.Name
             }
 
-            // skip unexported fields
-            if len(f.PkgPath) != 0 &amp;&amp; !f.Anonymous {
-                continue
+            <span class="hljs-comment">// skip unexported fields</span>
+            <span class="hljs-function"><span class="hljs-keyword">if</span> <span class="hljs-title">len</span><span class="hljs-params">(f.PkgPath)</span> !</span>= <span class="hljs-number">0</span> &amp;&amp; !f.Anonymous {
+                <span class="hljs-keyword">continue</span>
             }
 
-            // bfs search of anonymous embedded structs
-            if f.Anonymous {
+            <span class="hljs-comment">// bfs search of anonymous embedded structs</span>
+            <span class="hljs-keyword">if</span> f.Anonymous {
                 pp := tq.pp
-                if tag != &quot;&quot; {
+                <span class="hljs-keyword">if</span> tag != <span class="hljs-string">&quot;&quot;</span> {
                     pp = fi.Path
                 }
 
-                fi.Embedded = true
+                fi.Embedded = <span class="hljs-keyword">true</span>
                 fi.Index = apnd(tq.fi.Index, fieldPos)
-                nChildren := 0
+                nChildren := <span class="hljs-number">0</span>
                 ft := Deref(f.Type)
-                if ft.Kind() == reflect.Struct {
+                <span class="hljs-keyword">if</span> ft.Kind() == reflect.Struct {
                     nChildren = ft.NumField()
                 }
                 fi.Children = make([]*FieldInfo, nChildren)
                 queue = append(queue, typeQueue{Deref(f.Type), &amp;fi, pp})
-            } else if fi.Zero.Kind() == reflect.Struct || (fi.Zero.Kind() == reflect.Ptr &amp;&amp; fi.Zero.Type().Elem().Kind() == reflect.Struct) {
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> fi.Zero.Kind() == reflect.Struct || (fi.Zero.Kind() == reflect.Ptr &amp;&amp; fi.Zero.Type().Elem().Kind() == reflect.Struct) {
                 fi.Index = apnd(tq.fi.Index, fieldPos)
                 fi.Children = make([]*FieldInfo, Deref(f.Type).NumField())
                 queue = append(queue, typeQueue{Deref(f.Type), &amp;fi, fi.Path})
@@ -546,23 +546,23 @@ QueueLoop:
     }
 
     flds := &amp;StructMap{Index: m, Tree: root, Paths: map[string]*FieldInfo{}, Names: map[string]*FieldInfo{}}
-    for _, fi := range flds.Index {
+    <span class="hljs-keyword">for</span> _, fi := range flds.Index {
         flds.Paths[fi.Path] = fi
-        if fi.Name != &quot;&quot; &amp;&amp; !fi.Embedded {
+        <span class="hljs-keyword">if</span> fi.Name != <span class="hljs-string">&quot;&quot;</span> &amp;&amp; !fi.Embedded {
             flds.Names[fi.Path] = fi
         }
     }
 
-    return flds
+    <span class="hljs-keyword">return</span> flds
 }
 </code></pre>
 <h5 id="deref">Deref</h5>
 <p>Deref&#x51FD;&#x6570;&#x5C31;&#x662F;&#x8FD4;&#x56DE;&#x53D8;&#x91CF;&#x771F;&#x6B63;&#x7684;&#x7C7B;&#x578B;&#xFF1A;</p>
-<pre><code class="lang-c++">func Deref(t reflect.Type) reflect.Type {
-        if t.Kind() == reflect.Ptr {
+<pre><code class="lang-java"><span class="hljs-function">func <span class="hljs-title">Deref</span><span class="hljs-params">(t reflect.Type)</span> reflect.Type </span>{
+        <span class="hljs-keyword">if</span> t.Kind() == reflect.Ptr {
             t = t.Elem()
         }
-        return t
+        <span class="hljs-keyword">return</span> t
  }
 </code></pre>
 <blockquote>
@@ -570,8 +570,8 @@ QueueLoop:
 </blockquote>
 <h5 id="methodname">methodName</h5>
 <p>methodName&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x662F;&#x83B7;&#x53D6;&#x8C03;&#x7528;&#x8005;&#x7684;&#x51FD;&#x6570;&#x540D;</p>
-<pre><code class="lang-c++"><span class="hljs-comment">// methodName returns the caller of the function calling methodName</span>
-<span class="hljs-function">func <span class="hljs-title">methodName</span><span class="hljs-params">()</span> <span class="hljs-built_in">string</span> </span>{
+<pre><code class="lang-java"><span class="hljs-comment">// methodName returns the caller of the function calling methodName</span>
+<span class="hljs-function">func <span class="hljs-title">methodName</span><span class="hljs-params">()</span> string </span>{
     pc, _, _, _ := runtime.Caller(<span class="hljs-number">2</span>)
     f := runtime.FuncForPC(pc)
     <span class="hljs-keyword">if</span> f == nil {
@@ -583,7 +583,7 @@ QueueLoop:
 <p>Callers&#x7528;&#x6765;&#x8FD4;&#x56DE;&#x8C03;&#x7528;&#x6808;&#x7684;&#x7A0B;&#x5E8F;&#x8BA1;&#x6570;&#x5668;, &#x653E;&#x5230;&#x4E00;&#x4E2A;uintptr&#x4E2D;&#x3002;</p>
 <p>0 &#x4EE3;&#x8868; Callers &#x672C;&#x8EAB;&#xFF0C;&#x8FD9;&#x548C;&#x4E0A;&#x9762;&#x7684;Caller&#x7684;&#x53C2;&#x6570;&#x7684;&#x610F;&#x4E49;&#x4E0D;&#x4E00;&#x6837;&#xFF0C;&#x5386;&#x53F2;&#x539F;&#x56E0;&#x9020;&#x6210;&#x7684;&#x3002; 1 &#x624D;&#x5BF9;&#x5E94;&#x8FD9;&#x4E0A;&#x9762;&#x7684; 0&#x3002;</p>
 <p>&#x6BD4;&#x5982;&#x5728;&#x4E0A;&#x9762;&#x7684;&#x4F8B;&#x5B50;&#x4E2D;&#x589E;&#x52A0;&#x4E00;&#x4E2A;trace&#x51FD;&#x6570;&#xFF0C;&#x88AB;&#x51FD;&#x6570;Bar&#x8C03;&#x7528;&#x3002;</p>
-<pre><code class="lang-c++">&#x2026;&#x2026;
+<pre><code class="lang-java">&#x2026;&#x2026;
 <span class="hljs-function">func <span class="hljs-title">Bar</span><span class="hljs-params">()</span> </span>{
     fmt.Printf(<span class="hljs-string">&quot;&#x6211;&#x662F; %s, %s &#x53C8;&#x5728;&#x8C03;&#x7528;&#x6211;!\n&quot;</span>, printMyName(), printCallerName())
     trace()
@@ -598,20 +598,20 @@ QueueLoop:
     }
 }
 
-/usr/local/go/src/runtime/<span class="hljs-keyword">extern</span>.go:<span class="hljs-number">218</span> runtime.Callers
+/usr/local/go/src/runtime/extern.go:<span class="hljs-number">218</span> runtime.Callers
 /Users/yuepan/go/src/git.intra.weibo.com/platform/tool/g/main.go:<span class="hljs-number">34</span> main.trace
 /Users/yuepan/go/src/git.intra.weibo.com/platform/tool/g/main.go:<span class="hljs-number">20</span> main.Bar
 
 &#x8FD9;&#x89C1;&#x7B2C;&#x4E00;&#x4E2A;&#x548C;&#x7B2C;&#x4E8C;&#x4E2A;&#x662F;&#x8981;pass&#x7684;
 </code></pre>
 <p>&#x63A5;&#x4E0B;&#x6765;&#x770B;&#x4E0B;Mapper&#x7684;&#x5176;&#x4ED6;&#x51E0;&#x4E2A;&#x51FD;&#x6570;&#xFF1A;</p>
-<pre><code class="lang-c++"><span class="hljs-comment">// FieldMap returns the mapper&apos;s mapping of field names to reflect values.  Panics</span>
+<pre><code class="lang-java"><span class="hljs-comment">// FieldMap returns the mapper&apos;s mapping of field names to reflect values.  Panics</span>
 <span class="hljs-comment">// if v&apos;s Kind is not Struct, or v is not Indirectable to a struct kind.</span>
-func (m *Mapper) FieldMap(v reflect.Value) <span class="hljs-built_in">map</span>[<span class="hljs-built_in">string</span>]reflect.Value {
+func (m *Mapper) FieldMap(v reflect.Value) map[string]reflect.Value {
     v = reflect.Indirect(v)
     mustBe(v, reflect.Struct)
 
-    r := <span class="hljs-built_in">map</span>[<span class="hljs-built_in">string</span>]reflect.Value{}
+    r := map[string]reflect.Value{}
     tm := m.TypeMap(v.Type())
     <span class="hljs-keyword">for</span> tagName, fi := range tm.Names {
         r[tagName] = FieldByIndexes(v, fi.Index)
@@ -623,31 +623,31 @@ func (m *Mapper) FieldMap(v reflect.Value) <span class="hljs-built_in">map</span
 <h6 id="fieldbyindexes">FieldByIndexes</h6>
 <p>&#x8BE5;&#x51FD;&#x6570;&#x7684;indexes&#x5C31;&#x662F;&#x4E4B;&#x524D;&#x4ECE;&#x6839;&#x5230;&#x5F53;&#x524D;&#x8282;&#x70B9;&#x7684;index &#x96C6;&#x5408;&#xFF0C;&#x8FD9;&#x91CC;&#x4F1A;&#x4ECE;root&#x8282;&#x70B9;&#x5F00;&#x59CB;&#x904D;&#x5386;&#xFF0C;&#x5982;&#x679C;&#x662F;struct&#x6216;&#x8005;&#x662F;Map&#x7684;&#x5C31;&#x7ED9;&#x4ED6;&#x521D;&#x59CB;&#x5316;&#x3002;&#x7136;&#x540E;&#x8FD4;&#x56DE;&#x5BF9;&#x5E94;&#x7684;&#x503C;&#x3002;
 &#x63A5;&#x4E0B;&#x6765;&#x7684;&#x51E0;&#x4E2A;&#x51FD;&#x6570;&#x6709;&#x7740;&#x7C7B;&#x4F3C;&#x7684;&#x903B;&#x8F91;&#x3002;</p>
-<pre><code class="lang-c++">func FieldByIndexes(v reflect.Value, indexes []int) reflect.Value {
-    for _, i := range indexes {
+<pre><code class="lang-java"><span class="hljs-function">func <span class="hljs-title">FieldByIndexes</span><span class="hljs-params">(v reflect.Value, indexes []<span class="hljs-keyword">int</span>)</span> reflect.Value </span>{
+    <span class="hljs-keyword">for</span> _, i := range indexes {
         v = reflect.Indirect(v).Field(i)
-        // if this is a pointer and it&apos;s nil, allocate a new value and set it
-        if v.Kind() == reflect.Ptr &amp;&amp; v.IsNil() {
+        <span class="hljs-comment">// if this is a pointer and it&apos;s nil, allocate a new value and set it</span>
+        <span class="hljs-keyword">if</span> v.Kind() == reflect.Ptr &amp;&amp; v.IsNil() {
             alloc := reflect.New(Deref(v.Type()))
             v.Set(alloc)
         }
-        if v.Kind() == reflect.Map &amp;&amp; v.IsNil() {
+        <span class="hljs-keyword">if</span> v.Kind() == reflect.Map &amp;&amp; v.IsNil() {
             v.Set(reflect.MakeMap(v.Type()))
         }
     }
-    return v
+    <span class="hljs-keyword">return</span> v
 }
 </code></pre>
-<pre><code class="lang-c++">FieldMap
+<pre><code class="lang-java">FieldMap
 FieldByName
 FieldsByName
 </code></pre>
 <h5 id="traversalsbyname">TraversalsByName</h5>
 <p>TraversalsByName&#x5C31;&#x662F;&#x6839;&#x636E;&#x4E00;&#x4E2A;names&#x5217;&#x8868;&#x8FD4;&#x56DE;&#x5BF9;&#x5E94;&#x7684;index&#x5217;&#x8868;&#xFF0C;&#x6CE8;&#x610F;&#x8FD9;&#x4E2A;index&#x662F;&#x4E00;&#x4E2A;&#x4E8C;&#x7EF4;&#x6570;&#x7EC4;&#xFF0C;&#x6BCF;&#x4E2A;&#x884C;&#x4EE3;&#x8868;&#x4E86;&#x4E00;&#x4E2A;name&#x7684;index&#x96C6;&#x5408;&#x3002;</p>
-<pre><code class="lang-c++"><span class="hljs-comment">// TraversalsByName returns a slice of int slices which represent the struct</span>
+<pre><code class="lang-java"><span class="hljs-comment">// TraversalsByName returns a slice of int slices which represent the struct</span>
 <span class="hljs-comment">// traversals for each mapped name.  Panics if t is not a struct or Indirectable</span>
 <span class="hljs-comment">// to a struct.  Returns empty int slice for each name not found.</span>
-func (m *Mapper) TraversalsByName(t reflect.Type, names []<span class="hljs-built_in">string</span>) [][]<span class="hljs-keyword">int</span> {
+func (m *Mapper) TraversalsByName(t reflect.Type, names []string) [][]<span class="hljs-keyword">int</span> {
     r := make([][]<span class="hljs-keyword">int</span>, <span class="hljs-number">0</span>, len(names))
     m.TraversalsByNameFunc(t, names, func(_ <span class="hljs-keyword">int</span>, i []<span class="hljs-keyword">int</span>) error {
         <span class="hljs-keyword">if</span> i == nil {
@@ -735,7 +735,7 @@ func (m *Mapper) TraversalsByNameFunc(t reflect.Type, names []string, <span clas
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"reflectx.go","level":"1.3.3","depth":2,"previous":{"title":"named.go","level":"1.3.2","depth":2,"path":"sqlx/named.go.md","ref":"sqlx/named.go.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"sqlx/reflectx.md","mtime":"2020-09-15T08:03:12.220Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-15T08:03:21.683Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"reflectx.go","level":"1.3.3","depth":2,"previous":{"title":"named.go","level":"1.3.2","depth":2,"path":"sqlx/named.go.md","ref":"sqlx/named.go.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"sqlx/reflectx.md","mtime":"2020-09-15T08:17:07.622Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-15T08:17:49.891Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
