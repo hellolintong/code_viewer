@@ -1,6 +1,6 @@
 reflectx是对reflect的一个封装，他包含如下几个结构体：
 
-```c++
+``` java
 // A FieldInfo is metadata for a struct field.
 type FieldInfo struct {
 	Index    []int
@@ -40,7 +40,7 @@ Mapper包括StructMap, StructMap包括FieldInfo。
 
 对于StructMap，如下几个函数都是返回FileInfo的信息，StructMap维护了一个Tree结构，这个index应该是一个tree path，根据这个tree path返回对应的FieldInfo
 
-``` c++
+``` java
 // GetByPath returns a *FieldInfo for a given string path.
 func (f StructMap) GetByPath(path string) *FieldInfo {
 	return f.Paths[path]
@@ -70,7 +70,7 @@ func (f StructMap) GetByTraversal(index []int) *FieldInfo {
 
 这里重点看**TypeMap**，他是根据一个Type返回对应的StructMap，流程就是看缓存，如果缓存不命中再看看**getMapping**函数。
 
-```c++
+``` java
 // TypeMap returns a mapping of field strings to int slices representing
 // the traversal down the struct to reach the field.
 func (m *Mapper) TypeMap(t reflect.Type) *StructMap {
@@ -91,7 +91,7 @@ func (m *Mapper) TypeMap(t reflect.Type) *StructMap {
 ##### getMapping
 
 该函数用到的其他关联的信息如下：
-```c++
+``` java
 type typeQueue struct {
 	t  reflect.Type
 	fi *FieldInfo
@@ -176,7 +176,7 @@ getMapping函数是利用一个队列遍历，对从队列中取出来的每个F
 这里调用parseOption函数，该函数会解析tag的值。
 如果这个Field是一个内嵌结构体，或者他自身是一个Struct，那么会递归的调用（进入队列），等遍历完全部的Field后，会生成一个StructMap，完成FieldInfo到StructMap的关联。
 
-``` c++
+``` java
 func getMapping(t reflect.Type, tagName string, mapFunc, tagMapFunc mapf) *StructMap {
 	m := []*FieldInfo{}
 
@@ -280,7 +280,7 @@ QueueLoop:
 
 #####  Deref
 Deref函数就是返回变量真正的类型：
-```c++
+``` java
 func Deref(t reflect.Type) reflect.Type {
 		if t.Kind() == reflect.Ptr {
 			t = t.Elem()
@@ -293,7 +293,7 @@ func Deref(t reflect.Type) reflect.Type {
 ##### methodName
 
 methodName函数，该函数是获取调用者的函数名
-```c++
+``` java
 // methodName returns the caller of the function calling methodName
 func methodName() string {
 	pc, _, _, _ := runtime.Caller(2)
@@ -311,7 +311,7 @@ Callers用来返回调用栈的程序计数器, 放到一个uintptr中。
 
 比如在上面的例子中增加一个trace函数，被函数Bar调用。
 
-```c++
+``` java
 ……
 func Bar() {
 	fmt.Printf("我是 %s, %s 又在调用我!\n", printMyName(), printCallerName())
@@ -337,7 +337,7 @@ func trace() {
 
 接下来看下Mapper的其他几个函数：
 
-```c++
+``` java
 // FieldMap returns the mapper's mapping of field names to reflect values.  Panics
 // if v's Kind is not Struct, or v is not Indirectable to a struct kind.
 func (m *Mapper) FieldMap(v reflect.Value) map[string]reflect.Value {
@@ -359,7 +359,7 @@ func (m *Mapper) FieldMap(v reflect.Value) map[string]reflect.Value {
 该函数的indexes就是之前从根到当前节点的index 集合，这里会从root节点开始遍历，如果是struct或者是Map的就给他初始化。然后返回对应的值。
 接下来的几个函数有着类似的逻辑。
 
-```c++
+``` java
 func FieldByIndexes(v reflect.Value, indexes []int) reflect.Value {
 	for _, i := range indexes {
 		v = reflect.Indirect(v).Field(i)
@@ -376,7 +376,7 @@ func FieldByIndexes(v reflect.Value, indexes []int) reflect.Value {
 }
 ```
 
-```c++
+``` java
 FieldMap
 FieldByName
 FieldsByName
@@ -385,7 +385,7 @@ FieldsByName
 ##### TraversalsByName
 
 TraversalsByName就是根据一个names列表返回对应的index列表，注意这个index是一个二维数组，每个行代表了一个name的index集合。
-```c++
+``` java
 // TraversalsByName returns a slice of int slices which represent the struct
 // traversals for each mapped name.  Panics if t is not a struct or Indirectable
 // to a struct.  Returns empty int slice for each name not found.
