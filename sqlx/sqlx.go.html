@@ -1,0 +1,543 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>sqlx.go · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="named.go.html" />
+    
+    
+    <link rel="prev" href="sqlx源码导读.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    介绍
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../bigcache/BigCache.html">
+            
+                <a href="../bigcache/BigCache.html">
+            
+                    
+                    BigCache
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../bigcache/modules.html">
+            
+                <a href="../bigcache/modules.html">
+            
+                    
+                    模块之间引用关系
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../bigcache/function.html">
+            
+                <a href="../bigcache/function.html">
+            
+                    
+                    函数引用模块关系
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../bigcache/bytes_queue.html">
+            
+                <a href="../bigcache/bytes_queue.html">
+            
+                    
+                    bytes_queue
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../bigcache/iterator.html">
+            
+                <a href="../bigcache/iterator.html">
+            
+                    
+                    iterator
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../bigcache/encoding.html">
+            
+                <a href="../bigcache/encoding.html">
+            
+                    
+                    encoding
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="../bigcache/shard.html">
+            
+                <a href="../bigcache/shard.html">
+            
+                    
+                    shard
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="sqlx源码导读.html">
+            
+                <a href="sqlx源码导读.html">
+            
+                    
+                    sql
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter active" data-level="1.3.1" data-path="sqlx.go.html">
+            
+                <a href="sqlx.go.html">
+            
+                    
+                    sqlx.go
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="named.go.html">
+            
+                <a href="named.go.html">
+            
+                    
+                    named.go
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="reflectx.html">
+            
+                <a href="reflectx.html">
+            
+                    
+                    reflectx.go
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >sqlx.go</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h5 id="row">Row</h5>
+<p>sqlx.Row&#x5B9E;&#x73B0;&#x4E86;ColScanner&#x63A5;&#x53E3;, &#x8BE5;&#x63A5;&#x53E3;&#x662F;&#x5BF9;sql&#x7684;&#x5E95;&#x5C42;&#x5C01;&#x88C5;</p>
+<pre><code class="lang-c++"><span class="hljs-comment">// Row is a reimplementation of sql.Row in order to gain access to the underlying</span>
+<span class="hljs-comment">// sql.Rows.Columns() data, necessary for StructScan.</span>
+type Row <span class="hljs-keyword">struct</span> {
+    err    error
+    unsafe <span class="hljs-keyword">bool</span>
+    rows   *sql.Rows
+    Mapper *reflectx.Mapper
+}
+</code></pre>
+<pre><code class="lang-c++">type ColScanner interface {
+    Columns() ([]string, error)
+    Scan(dest ...interface{}) error
+    Err() error
+}
+</code></pre>
+<h4 id="db">DB</h4>
+<p>sql.DB&#x4E5F;&#x662F;&#x5BF9;&#x5E95;&#x5C42;DB&#x7684;&#x5C01;&#x88C5;</p>
+<pre><code class="lang-c++">type DB <span class="hljs-keyword">struct</span> {
+    *sql.DB
+    driverName <span class="hljs-built_in">string</span>
+    unsafe     <span class="hljs-keyword">bool</span>
+    Mapper     *reflectx.Mapper
+}
+</code></pre>
+<h5 id="mustexec">MustExec</h5>
+<p>MustExec&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;&#x63A5;&#x53E3;Execer&#xFF0C; MustExec&#x65B9;&#x6CD5;&#x53C8;&#x8C03;&#x7528;&#x4E86;MustExec&#x540C;&#x540D;&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x6839;&#x636E;&#x4F20;&#x5165;&#x7684;&#x63A5;&#x53E3;&#x5B9E;&#x73B0;&#x4EE3;&#x7406;&#xFF0C;&#x8FD9;&#x6837;&#x53EF;&#x4EE5;&#x9002;&#x914D;&#x591A;&#x79CD;&#x4E0D;&#x540C;&#x7684;DB&#x3002;
+MustExec&#x51FD;&#x6570;&#x5C31;&#x662F;&#x8C03;&#x7528;sql.DB&#x7684;Exec&#x51FD;&#x6570;</p>
+<pre><code class="lang-c++">func (db *DB) MustExec(query <span class="hljs-built_in">string</span>, args ...interface{}) sql.Result {
+    <span class="hljs-keyword">return</span> MustExec(db, query, args...)
+}
+</code></pre>
+<pre><code class="lang-c++">type Execer interface {
+    Exec(query <span class="hljs-built_in">string</span>, args ...interface{}) (sql.Result, error)
+}
+</code></pre>
+<pre><code class="lang-c++">func MustExec(e Execer, query string, args ...interface{}) sql.Result {
+    res, err := e.Exec(query, args...)
+    if err != nil {
+        panic(err)
+    }
+    return res
+}
+</code></pre>
+<h5 id="get">Get</h5>
+<p>&#x5148;&#x770B;&#x4E0B;Get&#x51FD;&#x6570;&#x7684;&#x4F7F;&#x7528;&#xFF1A;</p>
+<pre><code class="lang-c++"><span class="hljs-function">func <span class="hljs-title">queryRowDemo</span><span class="hljs-params">()</span> </span>{
+    sqlStr := <span class="hljs-string">&quot;select id, name, age from user where id=?&quot;</span>
+    var u user
+    err := db.Get(&amp;u, sqlStr, <span class="hljs-number">1</span>)
+    <span class="hljs-keyword">if</span> err != nil {
+        fmt.Printf(<span class="hljs-string">&quot;get failed, err:%v\n&quot;</span>, err)
+        <span class="hljs-keyword">return</span>
+    }
+    fmt.Printf(<span class="hljs-string">&quot;id:%d name:%s age:%d\n&quot;</span>, u.ID, u.Name, u.Age)
+}
+</code></pre>
+<p>&#x7136;&#x540E;&#x770B;&#x770B;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#xFF0C;&#x51FD;&#x6570;&#x7684;&#x5B9E;&#x73B0;&#x903B;&#x8F91;&#x548C;&#x4E0A;&#x6587;&#x8BF4;&#x5230;&#x7684;MustExec&#x662F;&#x4E00;&#x4E2A;&#x9053;&#x7406;&#x3002;Get&#x51FD;&#x6570;&#x5148;&#x8C03;&#x7528;&#x5E95;&#x5C42;DB&#x7684;Queryx&#x51FD;&#x6570;&#xFF0C;&#x8FDB;&#x884C;&#x67E5;&#x8BE2;&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;scanAny&#x51FD;&#x6570;&#x586B;&#x5145;&#xFF0C;&#x8FD9;&#x4E2A;sacnAny&#x51FD;&#x6570;&#x6D89;&#x53CA;&#x5230;&#x5F88;&#x591A;reflectx&#x76F8;&#x5173;&#x7684;&#x5185;&#x5BB9;&#x3002;</p>
+<pre><code class="lang-c++">func (db *DB) Get(dest interface{}, query <span class="hljs-built_in">string</span>, args ...interface{}) error {
+    <span class="hljs-keyword">return</span> Get(db, dest, query, args...)
+}
+
+<span class="hljs-function">func <span class="hljs-title">Get</span><span class="hljs-params">(q Queryer, dest interface{}, query <span class="hljs-built_in">string</span>, args ...interface{})</span> error </span>{
+    r := q.QueryRowx(query, args...)
+    <span class="hljs-keyword">return</span> r.scanAny(dest, <span class="hljs-literal">false</span>)
+}
+</code></pre>
+<pre><code class="lang-c++">func (db *DB) Queryx(query <span class="hljs-built_in">string</span>, args ...interface{}) (*Rows, error) {
+    r, err := db.DB.Query(query, args...)
+    <span class="hljs-keyword">if</span> err != nil {
+        <span class="hljs-keyword">return</span> nil, err
+    }
+    <span class="hljs-keyword">return</span> &amp;Rows{Rows: r, unsafe: db.unsafe, Mapper: db.Mapper}, err
+}
+</code></pre>
+<h5 id="scanany">scanAny</h5>
+<p>&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x628A;Row&#x7684;&#x5185;&#x5BB9;&#x586B;&#x5145;&#x5230;struct&#x4E2D;&#x3002;
+reflect.ValueOf&#x51FD;&#x6570;&#x662F;go&#x7684;&#x53CD;&#x5C04;&#x521D;&#x59CB;&#x5316;&#x4E00;&#x4E2A;&#x5BF9;&#x8C61;&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;Kind()&#x51FD;&#x6570;&#xFF0C;&#x786E;&#x4FDD;&#x662F;&#x6307;&#x9488;&#xFF0C;&#x800C;&#x4E14;&#x4E0D;&#x80FD;&#x662F;Nil&#x3002;
+&#x7136;&#x540E;&#x8C03;&#x7528;[[reflectx.reflect#Deref]]&#x51FD;&#x6570;, &#x8BE5;&#x51FD;&#x6570;&#x8FD4;&#x56DE;&#x6307;&#x9488;&#x5BF9;&#x5E94;&#x7684;&#x5E95;&#x5C42;&#x7684;&#x7C7B;&#x578B;&#xFF08;&#x5B9E;&#x9645;&#x662F;&#x8C03;&#x7528;&#x4E86;Elem&#x51FD;&#x6570;&#xFF09;
+&#x7136;&#x540E;&#x8C03;&#x7528;isScannable&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x5224;&#x65AD;&#x7C7B;&#x578B;&#x662F;&#x5426;&#x662F;&#x53EF;&#x4EE5;scannable&#x7684;&#x3002;
+&#x5982;&#x679C;&#x662F;&#x53EF;&#x4EE5;scannable&#x7684;&#xFF0C;&#x76F4;&#x63A5;&#x8C03;&#x7528;row&#x7684;scan&#x51FD;&#x6570;&#x8FDB;&#x884C;scan&#x3002;&#x5426;&#x5219;&#x8981;&#x8FDB;&#x884C;&#x6BD4;&#x8F83;&#x590D;&#x6742;&#x7684;&#x5904;&#x7406;&#xFF1A;&#x8C03;&#x7528;&#x5173;&#x8054;&#x7684;Mapper&#x7684;[[reflectx.reflect#TraversalsByName]]&#x51FD;&#x6570;&#xFF0C;&#x8BE5;&#x51FD;&#x6570;&#x8FD4;&#x56DE;column&#x5BF9;&#x5E94;&#x7684;fields&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;fieldsByTraversal&#x51FD;&#x6570;&#x8BE5;&#x51FD;&#x6570;&#x4E2D;&#x91CD;&#x70B9;&#x8C03;&#x7528;&#x4E86;[[reflectx.reflect#FieldByIndexes]] &#x51FD;&#x6570;&#xFF0C;&#x6700;&#x540E;&#x5C06;&#x8FD4;&#x56DE;&#x7684;&#x503C;&#x8C03;&#x7528;scan&#x51FD;&#x6570;&#x3002;</p>
+<pre><code class="lang-c++">func (r *Row) scanAny(dest interface{}, structOnly bool) error {
+    if r.err != nil {
+        return r.err
+    }
+    if r.rows == nil {
+        r.err = sql.ErrNoRows
+        return r.err
+    }
+    defer r.rows.Close()
+
+    v := reflect.ValueOf(dest)
+    if v.Kind() != reflect.Ptr {
+        return errors.New(&quot;must pass a pointer, not a value, to StructScan destination&quot;)
+    }
+    if v.IsNil() {
+        return errors.New(&quot;nil pointer passed to StructScan destination&quot;)
+    }
+
+    base := reflectx.Deref(v.Type())
+    scannable := isScannable(base)
+
+    if structOnly &amp;&amp; scannable {
+        return structOnlyError(base)
+    }
+
+    columns, err := r.Columns()
+    if err != nil {
+        return err
+    }
+
+    if scannable &amp;&amp; len(columns) &gt; 1 {
+        return fmt.Errorf(&quot;scannable dest type %s with &gt;1 columns (%d) in result&quot;, base.Kind(), len(columns))
+    }
+
+    if scannable {
+        return r.Scan(dest)
+    }
+
+    m := r.Mapper
+
+    fields := m.TraversalsByName(v.Type(), columns)
+    // if we are not unsafe and are missing fields, return an error
+    if f, err := missingFields(fields); err != nil &amp;&amp; !r.unsafe {
+        return fmt.Errorf(&quot;missing destination name %s in %T&quot;, columns[f], dest)
+    }
+    values := make([]interface{}, len(columns))
+
+    err = fieldsByTraversal(v, fields, values, true)
+    if err != nil {
+        return err
+    }
+    // scan into the struct field pointers and append to our results
+    return r.Scan(values...)
+}
+</code></pre>
+<h5 id="fieldsbytraversal">fieldsByTraversal</h5>
+<pre><code class="lang-c++"><span class="hljs-function">func <span class="hljs-title">fieldsByTraversal</span><span class="hljs-params">(v reflect.Value, traversals [][]<span class="hljs-keyword">int</span>, values []interface{}, ptrs <span class="hljs-keyword">bool</span>)</span> error </span>{
+    v = reflect.Indirect(v)
+    <span class="hljs-keyword">if</span> v.Kind() != reflect.Struct {
+        <span class="hljs-keyword">return</span> errors.New(<span class="hljs-string">&quot;argument not a struct&quot;</span>)
+    }
+
+    <span class="hljs-keyword">for</span> i, traversal := range traversals {
+        <span class="hljs-function"><span class="hljs-keyword">if</span> <span class="hljs-title">len</span><span class="hljs-params">(traversal)</span> </span>== <span class="hljs-number">0</span> {
+            values[i] = <span class="hljs-keyword">new</span>(interface{})
+            <span class="hljs-keyword">continue</span>
+        }
+        f := reflectx.FieldByIndexes(v, traversal)
+        <span class="hljs-keyword">if</span> ptrs {
+            values[i] = f.Addr().Interface()
+        } <span class="hljs-keyword">else</span> {
+            values[i] = f.Interface()
+        }
+    }
+    <span class="hljs-keyword">return</span> nil
+}
+</code></pre>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="sqlx源码导读.html" class="navigation navigation-prev " aria-label="Previous page: sql">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="named.go.html" class="navigation navigation-next " aria-label="Next page: named.go">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"sqlx.go","level":"1.3.1","depth":2,"next":{"title":"named.go","level":"1.3.2","depth":2,"path":"sqlx/named.go.md","ref":"sqlx/named.go.md","articles":[]},"previous":{"title":"sql","level":"1.3","depth":1,"path":"sqlx/sqlx源码导读.md","ref":"sqlx/sqlx源码导读.md","articles":[{"title":"sqlx.go","level":"1.3.1","depth":2,"path":"sqlx/sqlx.go.md","ref":"sqlx/sqlx.go.md","articles":[]},{"title":"named.go","level":"1.3.2","depth":2,"path":"sqlx/named.go.md","ref":"sqlx/named.go.md","articles":[]},{"title":"reflectx.go","level":"1.3.3","depth":2,"path":"sqlx/reflectx.md","ref":"sqlx/reflectx.md","articles":[]}]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"sqlx/sqlx.go.md","mtime":"2020-09-15T08:03:12.221Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-15T08:03:21.683Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+

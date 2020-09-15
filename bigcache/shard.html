@@ -57,6 +57,8 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
+    <link rel="next" href="../sqlx/sqlx源码导读.html" />
+    
     
     <link rel="prev" href="encoding.html" />
     
@@ -185,6 +187,64 @@
             
                     
                     shard
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../sqlx/sqlx源码导读.html">
+            
+                <a href="../sqlx/sqlx源码导读.html">
+            
+                    
+                    sql
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../sqlx/sqlx.go.html">
+            
+                <a href="../sqlx/sqlx.go.html">
+            
+                    
+                    sqlx.go
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../sqlx/named.go.html">
+            
+                <a href="../sqlx/named.go.html">
+            
+                    
+                    named.go
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../sqlx/reflectx.html">
+            
+                <a href="../sqlx/reflectx.html">
+            
+                    
+                    reflectx.go
             
                 </a>
             
@@ -438,10 +498,14 @@
 
             
                 
-                <a href="encoding.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: encoding">
+                <a href="encoding.html" class="navigation navigation-prev " aria-label="Previous page: encoding">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
+                
+                <a href="../sqlx/sqlx源码导读.html" class="navigation navigation-next " aria-label="Next page: sql">
+                    <i class="fa fa-angle-right"></i>
+                </a>
                 
             
         
@@ -450,7 +514,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"shard","level":"1.2.6","depth":2,"previous":{"title":"encoding","level":"1.2.5","depth":2,"path":"bigcache/encoding.md","ref":"bigcache/encoding.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["livereload"],"pluginsConfig":{"livereload":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"bigcache/shard.md","mtime":"2020-08-20T05:12:23.404Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-08-20T05:13:21.469Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"shard","level":"1.2.6","depth":2,"next":{"title":"sql","level":"1.3","depth":1,"path":"sqlx/sqlx源码导读.md","ref":"sqlx/sqlx源码导读.md","articles":[{"title":"sqlx.go","level":"1.3.1","depth":2,"path":"sqlx/sqlx.go.md","ref":"sqlx/sqlx.go.md","articles":[]},{"title":"named.go","level":"1.3.2","depth":2,"path":"sqlx/named.go.md","ref":"sqlx/named.go.md","articles":[]},{"title":"reflectx.go","level":"1.3.3","depth":2,"path":"sqlx/reflectx.md","ref":"sqlx/reflectx.md","articles":[]}]},"previous":{"title":"encoding","level":"1.2.5","depth":2,"path":"bigcache/encoding.md","ref":"bigcache/encoding.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"bigcache/shard.md","mtime":"2020-09-15T08:03:12.219Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-09-15T08:03:21.683Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
@@ -458,10 +522,6 @@
         
     <script src="../gitbook/gitbook.js"></script>
     <script src="../gitbook/theme.js"></script>
-    
-        
-        <script src="../gitbook/gitbook-plugin-livereload/plugin.js"></script>
-        
     
         
         <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
